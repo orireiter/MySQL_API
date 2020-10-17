@@ -1,0 +1,1 @@
+if you create the mysql now and need to first create the dbs and tables, first see the config for an example, then run db_init.py which will use the config to create those.

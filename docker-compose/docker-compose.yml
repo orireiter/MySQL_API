@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    deploy:
+      replicas: 1
+    ports:
+        - 5672:5672
+        - 15672:15672
+    container_name: RabbitMQ_Server
+  
+  MySQL:
+    image: mysql
+    deploy:
+        replicas: 1
+    ports:
+        - 3306:3306
+    container_name: MySQL_Server
+    environment:
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
