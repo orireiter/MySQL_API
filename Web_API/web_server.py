@@ -2,6 +2,24 @@ from pyTools.RabbitMQ_Class.RabbitClass import Rabbit
 from pyTools.extra_tools import get_conf
 from flask import Flask, request
 
+is_rabbit_up, is_conf_up = False, False
+print("Web_API awaiting config")
+while is_conf_up is False:
+    try:
+        confer = get_conf(['DBs'])
+        is_conf_up = True
+    except:
+        pass
+print("Web_API awaiting connection to RabbitMQ")
+while is_rabbit_up is False:
+    try:
+        rab = Rabbit(host=get_conf(['RabbitMQ', 'host']))
+        is_rabbit_up = True
+        rab.close_connection()
+    except:
+        pass
+
+
 app = Flask(__name__)
 rabbit = Rabbit(get_conf(['RabbitMQ', 'host']))
 rabbit.declare_queue(get_conf(['RabbitMQ', 'queues', 'post_queue']),durable=True)
@@ -87,6 +105,3 @@ def delete(db, table, record_id):
             body = {"record_id": record_id, "db": db, "table": table}
             result = rabbit.send_n_receive(get_conf(['RabbitMQ', 'queues', 'delete_queue']), body)
             return(result)
-
-
-app.run(debug=True)

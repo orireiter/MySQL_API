@@ -2,6 +2,8 @@ version: "3.8"
 services:
   rabbitmq:
     image: rabbitmq:3-management
+    networks: 
+      - MySQL_API
     deploy:
       replicas: 1
     ports:
@@ -13,8 +15,54 @@ services:
     image: mysql
     deploy:
         replicas: 1
+    container_name: MySQL_Server
+    networks: 
+      - MySQL_API
     ports:
         - 3306:3306
-    container_name: MySQL_Server
     environment:
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+
+  post_consumer:
+    image: mysql_consumer_post
+    container_name: Mysql_Consumer_POST
+    networks: 
+      - MySQL_API
+    deploy:
+      replicas: 1
+    volumes:
+        - ./config.yml:/app/config.yml
+  
+  get_consumer:
+    image: mysql_consumer_get
+    container_name: Mysql_Consumer_GET
+    networks: 
+      - MySQL_API
+    deploy:
+      replicas: 1
+    volumes:
+        - ./config.yml:/app/config.yml
+
+  put_consumer:
+    image: mysql_consumer_put
+    container_name: Mysql_Consumer_PUT
+    networks: 
+      - MySQL_API
+    deploy:
+      replicas: 1
+    volumes:
+        - ./config.yml:/app/config.yml
+
+  delete_consumer:
+    image: mysql_consumer_delete
+    container_name: Mysql_Consumer_DELETE
+    networks: 
+      - MySQL_API
+    deploy:
+      replicas: 1
+    volumes:
+        - ./config.yml:/app/config.yml
+    
+networks:
+    MySQL_API:
+      driver: bridge

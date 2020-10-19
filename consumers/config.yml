@@ -1,0 +1,30 @@
+mysql_cred:
+    host: localhost
+    user: root
+    password: 123456
+DBs:
+    products:
+        db_cred:
+            host: localhost
+            user: root
+            password: 123456
+        tables:
+         music: '(id INT AUTO_INCREMENT PRIMARY KEY, Album VARCHAR(255), Artist VARCHAR(255), Composer VARCHAR(255), Release_Year INT)'
+         movies: '(id INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(255), Director VARCHAR(255), Producer VARCHAR(255), Release_Year INT)'
+    
+    users:
+        db_cred:
+         host: localhost
+         user: root
+         password: 123456
+        tables:
+         admins: '(id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), password VARCHAR(255))'
+         customers: '(id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), password VARCHAR(255))'
+
+RabbitMQ:
+    host: localhost
+    queues:
+      get_queue: get
+      post_queue: post
+      put_queue: put
+      delete_queue: delete
