@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  web_api:
+    image: web_api
+    container_name: Mysql_Web_API
+    deploy:
+      replicas: 1
+    volumes:
+        - ./config.yml:/app/config.yml
+        - ./config.json:/docker-entrypoint.d/config.json
+    ports:
+        - 80:80

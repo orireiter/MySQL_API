@@ -62,7 +62,20 @@ services:
       replicas: 1
     volumes:
         - ./config.yml:/app/config.yml
-    
+  
+  web_api:
+    image: orireiter/mysql_api:mysql_web_api
+    container_name: Mysql_Web_API
+    deploy:
+      replicas: 1
+    networks: 
+      - MySQL_API
+    volumes:
+        - ./config.yml:/app/config.yml
+        - ./config.json:/docker-entrypoint.d/config.json
+    ports:
+        - 80:80
+
 networks:
     MySQL_API:
       driver: bridge
