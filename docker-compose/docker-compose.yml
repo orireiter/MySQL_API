@@ -24,7 +24,7 @@ services:
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
 
   post_consumer:
-    image: mysql_consumer_post
+    image: orireiter/mysql_api:mysql_consumer_post
     container_name: Mysql_Consumer_POST
     networks: 
       - MySQL_API
@@ -34,7 +34,7 @@ services:
         - ./config.yml:/app/config.yml
   
   get_consumer:
-    image: mysql_consumer_get
+    image: orireiter/mysql_api:mysql_consumer_get
     container_name: Mysql_Consumer_GET
     networks: 
       - MySQL_API
@@ -44,7 +44,7 @@ services:
         - ./config.yml:/app/config.yml
 
   put_consumer:
-    image: mysql_consumer_put
+    image: orireiter/mysql_api:mysql_consumer_put
     container_name: Mysql_Consumer_PUT
     networks: 
       - MySQL_API
@@ -54,7 +54,7 @@ services:
         - ./config.yml:/app/config.yml
 
   delete_consumer:
-    image: mysql_consumer_delete
+    image: orireiter/mysql_api:mysql_consumer_delete
     container_name: Mysql_Consumer_DELETE
     networks: 
       - MySQL_API

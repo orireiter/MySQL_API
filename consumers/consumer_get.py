@@ -3,14 +3,14 @@ from pyTools.RabbitMQ_Class.RabbitClass import Rabbit
 from pyTools.extra_tools import get_conf, fix_json_quotings
 
 is_rabbit_up, is_mysql_up, is_conf_up = False, False, False
-print("POST consumer awaiting config")
+print("GET consumer awaiting config")
 while is_conf_up is False:
     try:
         confer = get_conf(['DBs'])
         is_conf_up = True
     except:
         pass
-print("POST consumer awaiting connection to RabbitMQ")
+print("GET consumer awaiting connection to RabbitMQ")
 while is_rabbit_up is False:
     try:
         rab = Rabbit(host=get_conf(['RabbitMQ', 'host']))
@@ -18,7 +18,7 @@ while is_rabbit_up is False:
         rab.close_connection()
     except:
         pass
-print("POST consumer awaiting connection to MySQL")
+print("GET consumer awaiting connection to MySQL")
 while is_mysql_up is False:
     try:
         mas = conn = MSQL(get_conf(['mysql_cred','host']),
