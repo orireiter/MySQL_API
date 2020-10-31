@@ -2,6 +2,10 @@ from pyTools.MySQL_Class.MySQL_Class import MSQL
 from pyTools.RabbitMQ_Class.RabbitClass import Rabbit
 from pyTools.extra_tools import get_conf, fix_json_quotings
 
+# Upon execution, first wait until it can find the config, 
+# and can connect to the rabbit server and mysql server.
+# When first connecting to mysql, it will try to initialize the databases and
+# tables in the config.
 is_rabbit_up, is_mysql_up, is_conf_up = False, False, False
 print("DELETE consumer awaiting config")
 while is_conf_up is False:
@@ -36,9 +40,13 @@ while is_mysql_up is False:
     except:
         pass
 
+# After initializing a rabbit object and declare the queue it will consume from.
 consumer = Rabbit(host=get_conf(['RabbitMQ', 'host']))
 consumer.declare_queue(get_conf(['RabbitMQ', 'queues', 'delete_queue']),durable=True)
 
+# The function that will be executed when a message is consumed.
+# It will transform the stringed message from rabbit into a dictionary
+# for ease of use and then use the info in it to try and create/delete/update/query from the db.
 def deleter(msg):
     msg_as_str = msg.decode('utf-8')    
     msg_as_dict = fix_json_quotings(msg_as_str)
@@ -54,4 +62,7 @@ def deleter(msg):
     result = conn.delete_record(msg_as_dict['table'],msg_as_dict['record_id'])
     return(result)
 
+# This function starts listening to the given rabbit queue, 
+# and executes the function above upon message consumption, with 
+# the message as a parameter.
 consumer.receive_n_send_many(get_conf(['RabbitMQ', 'queues', 'delete_queue']), deleter)

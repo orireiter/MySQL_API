@@ -1,6 +1,7 @@
 from pyTools.extra_tools import get_conf
 from pyTools.MySQL_Class.MySQL_Class import MSQL
 
+# a simple script that iterates through the config an initialized the databases and tables.
 
 conn = MSQL(get_conf(['mysql_cred','host']),get_conf(['mysql_cred','user']),str(get_conf(['mysql_cred','password'])))
 
