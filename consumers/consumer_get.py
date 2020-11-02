@@ -1,6 +1,6 @@
 from pyTools.MySQL_Class.MySQL_Class import MSQL
 from pyTools.RabbitMQ_Class.RabbitClass import Rabbit
-from pyTools.extra_tools import get_conf, fix_json_quotings
+from pyTools.extra_tools import get_conf, fix_json_quotings, list_of_tuples_to_list_of_lists
 
 # Upon execution, first wait until it can find the config, 
 # and can connect to the rabbit server and mysql server.
@@ -66,10 +66,16 @@ def getter(msg):
         result = conn.find_record(table,msg_as_dict['record_id'])
     elif len(msg_as_dict)==0:
         result = conn.find_all_records(table)
+        result = list_of_tuples_to_list_of_lists(result)
     else:
         column =  str(list(msg_as_dict.keys())[0])
         value = str(list(msg_as_dict.values())[0])
         result = conn.find_records(table, column, value)
+        print(result)
+        if type(result) == type(['list','list']):
+            result = list_of_tuples_to_list_of_lists(result)
+        else:
+            pass
     return(result)
 
 # This function starts listening to the given rabbit queue, 

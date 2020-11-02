@@ -29,9 +29,14 @@ def get_conf(*key_list):
         return "ERROR: one of the keys given does NOT exist"
     return conf
 
-
 def fix_json_quotings(string):
     from json import loads
     fixed_string = string.replace("'", '"')
     fixed_json = loads(fixed_string)
     return(fixed_json)
+
+def list_of_tuples_to_list_of_lists(lst):
+    new_list = []
+    for tup in lst:
+        new_list.append(list(tup))
+    return new_list
