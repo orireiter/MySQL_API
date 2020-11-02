@@ -1,0 +1,40 @@
+POST -
+• Check a normal request
+• Request to non existing table
+• Request with deformed json
+• Request with no json
+
+GET -
+• Check a normal request (once with ID + once with JSON)
+• Request to non existing table
+• Request with deformed json
+• Request with no json (when json is needed)
+• Request to non existing ID
+
+
+DELETE -
+• Check a normal request
+• Request to non existing table
+• Request with non existing ID
+• Request with no ID
+
+
+PUT -
+• Check a normal request
+• Request to non existing table
+• Request with deformed json
+• Request with no json
+• Request with no ID
+
+
+GENERAL - 
+• Sending many  normal messages at once
+• Sending many abnormal messages at once
+• Reaction to aborted connections
+
+
+extra tasks -
+implement different status codes  for flask
+smoothen while loops in consumers' startup
+handle when trying to query an empty table
+configure a timeout to abort query
