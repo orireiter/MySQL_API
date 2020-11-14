@@ -25,17 +25,15 @@ services:
 
   post_consumer:
     image: orireiter/mysql_api:mysql_consumer_post
-    container_name: Mysql_Consumer_POST
     networks: 
       - MySQL_API
     deploy:
-      replicas: 1
+      replicas: 3
     volumes:
         - ./config.yml:/app/config.yml
   
   get_consumer:
     image: orireiter/mysql_api:mysql_consumer_get
-    container_name: Mysql_Consumer_GET
     networks: 
       - MySQL_API
     deploy:
@@ -45,7 +43,6 @@ services:
 
   put_consumer:
     image: orireiter/mysql_api:mysql_consumer_put
-    container_name: Mysql_Consumer_PUT
     networks: 
       - MySQL_API
     deploy:
@@ -55,7 +52,6 @@ services:
 
   delete_consumer:
     image: orireiter/mysql_api:mysql_consumer_delete
-    container_name: Mysql_Consumer_DELETE
     networks: 
       - MySQL_API
     deploy:

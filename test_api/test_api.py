@@ -1,4 +1,4 @@
-import requests, json, pytest
+import requests, json, pytest, time, multiprocessing
 from functools import partial
 
 # POST_TESTS
@@ -167,3 +167,29 @@ def test_get_url_variations(url,expected):
     
     # Validate response headers and body contents, e.g. status code.
     assert resp.status_code == expected
+
+
+#========================================================#
+# PERFORMANCE_TESTS
+#========================================================#
+
+
+def send_req():
+    body = {'username': 'gabi', 'password': '123456'}
+
+    url = 'http://localhost/users/admins'
+    headers = {'Content-Type': 'application/json'}
+    
+    resp = requests.post(url=url, headers=headers, data=json.dumps(body,indent=4))
+
+def test_performance_many_at_once():
+    start_time = time.time()
+
+    pool = multiprocessing.Pool()
+    for _ in range(500):
+        pool.apply_async(send_req)
+    pool.close()
+    pool.join()
+
+    elapsed_time = time.time() - start_time
+    assert elapsed_time <= 15
